@@ -1,20 +1,12 @@
 'use client';
 
-import { useState, Suspense, createContext } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import DemoCard from './components/DemoCard';
 import FilterSection from './components/FilterSection';
 import demos from './data/demos.json';
 import Image from 'next/image';
-
-// Create a context to manage audio playback across components
-export const AudioContext = createContext<{
-  currentlyPlaying: string | null;
-  setCurrentlyPlaying: (id: string | null) => void;
-}>({
-  currentlyPlaying: null,
-  setCurrentlyPlaying: () => {},
-});
+import AudioContext from './contexts/AudioContext';
 
 function HomeContent() {
   const router = useRouter();

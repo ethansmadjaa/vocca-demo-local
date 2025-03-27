@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useContext } from 'react';
 import Image from 'next/image';
-import { AudioContext } from '../page';
+import AudioContext from '../contexts/AudioContext';
 // Suppression de l'import qui ne fonctionne pas
 // import ReactAudioSpectrum from 'react-audio-spectrum';
 
