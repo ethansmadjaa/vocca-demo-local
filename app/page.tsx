@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import DemoCard from './components/DemoCard';
 import FilterSection from './components/FilterSection';
@@ -21,11 +21,29 @@ function HomeContent() {
 
   // Update URL when filters change
   const updateURL = (center: string | null, type: string | null) => {
+    // Start with a clean URL if no filters are selected
+    if (!center && !type) {
+      router.push('/', { scroll: false });
+      return;
+    }
+    
+    // Create a new URLSearchParams object
     const params = new URLSearchParams();
-    if (center) params.set('center', center);
-    if (type) params.set('type', type);
+    
+    // Only add params that have values
+    if (center) {
+      params.set('center', center);
+    }
+    
+    if (type) {
+      params.set('type', type);
+    }
+    
+    // Create the URL string with query parameters if they exist
     const newURL = params.toString() ? `?${params.toString()}` : '';
-    router.push(newURL);
+    
+    // Update the URL without refreshing the page
+    router.push(newURL, { scroll: false });
   };
 
   // Handle filter changes
@@ -60,7 +78,7 @@ function HomeContent() {
 
       {/* Content Section */}
       <div className="max-w-7xl mx-auto px-4 pb-16">
-        <h1 className="text-4xl font-bold text-center mb-12">
+        <h1 className="text-4xl font-bold text-center mb-12 text-[#171717]">
           Nos agents spécialisés pour tous vos cas d&apos;usage médicaux
         </h1>
         
