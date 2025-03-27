@@ -1,15 +1,27 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, createContext } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import DemoCard from './components/DemoCard';
 import FilterSection from './components/FilterSection';
 import demos from './data/demos.json';
 import Image from 'next/image';
 
+// Create a context to manage audio playback across components
+export const AudioContext = createContext<{
+  currentlyPlaying: string | null;
+  setCurrentlyPlaying: (id: string | null) => void;
+}>({
+  currentlyPlaying: null,
+  setCurrentlyPlaying: () => {},
+});
+
 function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  
+  // Audio context state
+  const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
   
   // Initialize state from URL parameters
   const [selectedCenterType, setSelectedCenterType] = useState<string | null>(
@@ -64,49 +76,52 @@ function HomeContent() {
   });
 
   return (
-    <main className="min-h-screen bg-gray-100">
-      {/* Banner Section */}
-      <div className="w-full relative h-[120px] mb-8">
-        <Image
-          src="/banner.webp"
-          alt="Vooca Banner"
-          fill
-          className="object-contain"
-          priority
-        />
-      </div>
-
-      {/* Content Section */}
-      <div className="max-w-7xl mx-auto px-4 pb-16">
-        <h1 className="text-4xl font-bold text-center mb-12 text-[#171717]">
-          Nos agents spécialisés pour tous vos cas d&apos;usage médicaux
-        </h1>
-        
-        {/* Filters */}
-        <FilterSection
-          filters={demos.filters}
-          selectedCenterType={selectedCenterType}
-          selectedAppointmentType={selectedAppointmentType}
-          onCenterTypeChange={handleCenterTypeChange}
-          onAppointmentTypeChange={handleAppointmentTypeChange}
-        />
-
-        {/* Demo Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredDemos.map((demo) => (
-            <DemoCard
-              key={demo.id}
-              title={demo.title}
-              description={demo.description}
-              image={demo.image}
-              audioFile={demo.audioFile}
-              centerType={demo.centerType}
-              appointmentType={demo.appointmentType}
-            />
-          ))}
+    <AudioContext.Provider value={{ currentlyPlaying, setCurrentlyPlaying }}>
+      <main className="min-h-screen bg-gray-100">
+        {/* Banner Section */}
+        <div className="w-full relative h-[120px] mb-8">
+          <Image
+            src="/banner.webp"
+            alt="Vooca Banner"
+            fill
+            className="object-contain"
+            priority
+          />
         </div>
-      </div>
-    </main>
+
+        {/* Content Section */}
+        <div className="max-w-7xl mx-auto px-4 pb-16">
+          <h1 className="text-4xl font-bold text-center mb-12 text-[#171717]">
+            Nos agents spécialisés pour tous vos cas d&apos;usage médicaux
+          </h1>
+          
+          {/* Filters */}
+          <FilterSection
+            filters={demos.filters}
+            selectedCenterType={selectedCenterType}
+            selectedAppointmentType={selectedAppointmentType}
+            onCenterTypeChange={handleCenterTypeChange}
+            onAppointmentTypeChange={handleAppointmentTypeChange}
+          />
+
+          {/* Demo Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredDemos.map((demo) => (
+              <DemoCard
+                key={demo.id}
+                id={demo.id.toString()}
+                title={demo.title}
+                description={demo.description}
+                image={demo.image}
+                audioFile={demo.audioFile}
+                centerType={demo.centerType}
+                appointmentType={demo.appointmentType}
+              />
+            ))}
+          </div>
+        </div>
+      </main>
+    </AudioContext.Provider>
   );
 }
 

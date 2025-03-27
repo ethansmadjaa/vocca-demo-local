@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import Image from 'next/image';
+import { AudioContext } from '../page';
 // Suppression de l'import qui ne fonctionne pas
 // import ReactAudioSpectrum from 'react-audio-spectrum';
 
 interface DemoCardProps {
+  id: string;
   title: string;
   description: string;
   image: string;
@@ -14,14 +16,16 @@ interface DemoCardProps {
   appointmentType: string;
 }
 
-export default function DemoCard({ title, description, image, audioFile, centerType, appointmentType }: DemoCardProps) {
+export default function DemoCard({ id, title, description, image, audioFile, centerType, appointmentType }: DemoCardProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const { currentlyPlaying, setCurrentlyPlaying } = useContext(AudioContext);
   
   useEffect(() => {
     // Handle audio end event
     const handleAudioEnd = () => {
       setIsPlaying(false);
+      setCurrentlyPlaying(null);
       console.log("Audio playback ended");
     };
 
@@ -31,6 +35,8 @@ export default function DemoCard({ title, description, image, audioFile, centerT
 
     const handleError = (e: Event) => {
       console.error("Audio error occurred:", e);
+      setIsPlaying(false);
+      setCurrentlyPlaying(null);
     };
 
     // Capture the current ref value to use in cleanup
@@ -54,28 +60,44 @@ export default function DemoCard({ title, description, image, audioFile, centerT
         audioElement.removeEventListener('error', handleError);
       }
     };
-  }, []);
+  }, [setCurrentlyPlaying]);
+
+  // Effect to handle global audio state
+  useEffect(() => {
+    // If another audio is playing, pause this one
+    if (currentlyPlaying !== null && currentlyPlaying !== id && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [currentlyPlaying, id, isPlaying]);
 
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        setIsPlaying(false);
+        setCurrentlyPlaying(null);
         console.log("Audio paused");
       } else {
         console.log("Attempting to play audio...", audioFile);
+        // Set this as the currently playing audio globally before trying to play
+        setCurrentlyPlaying(id);
         audioRef.current.play().catch(err => {
           console.error("Audio playback error:", err);
+          setCurrentlyPlaying(null);
         });
+        setIsPlaying(true);
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
   const resetAudio = () => {
-    if (audioRef.current) {
+    // Only allow reset if this audio is actually playing
+    if (audioRef.current && isPlaying) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       setIsPlaying(false);
+      setCurrentlyPlaying(null);
     }
   };
 
@@ -132,7 +154,12 @@ export default function DemoCard({ title, description, image, audioFile, centerT
         <div className="absolute bottom-4 right-4 flex gap-3 z-10">
           <button
             onClick={resetAudio}
-            className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/30 flex items-center justify-center transition-all duration-500 hover:scale-110 flex-shrink-0 border border-white/30"
+            className={`w-14 h-14 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-500 flex-shrink-0 border border-white/30 ${
+              isPlaying 
+                ? 'bg-white/20 hover:bg-white/30 hover:scale-110' 
+                : 'bg-white/10 cursor-not-allowed opacity-50'
+            }`}
+            disabled={!isPlaying}
             aria-label="Reset audio"
           >
             <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,7 +208,7 @@ export default function DemoCard({ title, description, image, audioFile, centerT
       <audio 
         ref={audioRef} 
         src={audioFile} 
-        id="audio-player"
+        id={`audio-player-${id}`}
         preload="auto"
       />
     </div>
