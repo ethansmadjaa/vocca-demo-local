@@ -1,12 +1,22 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import DemoCard from './components/DemoCard';
 import FilterSection from './components/FilterSection';
 import demos from './data/demos.json';
 import Image from 'next/image';
 import AudioContext from './contexts/AudioContext';
+
+// Shuffle function using Fisher-Yates algorithm
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
 
 function HomeContent() {
   const router = useRouter();
@@ -22,6 +32,20 @@ function HomeContent() {
   const [selectedAppointmentType, setSelectedAppointmentType] = useState<string | null>(
     searchParams.get('type')
   );
+  
+  // State for shuffled demos
+  const [shuffledFilteredDemos, setShuffledFilteredDemos] = useState(demos.demos);
+
+  // Filter and shuffle demos when filters change
+  useEffect(() => {
+    const filtered = demos.demos.filter((demo) => {
+      const matchesCenterType = !selectedCenterType || demo.centerType === selectedCenterType;
+      const matchesAppointmentType = !selectedAppointmentType || demo.appointmentType === selectedAppointmentType;
+      return matchesCenterType && matchesAppointmentType;
+    });
+    
+    setShuffledFilteredDemos(shuffleArray(filtered));
+  }, [selectedCenterType, selectedAppointmentType]);
 
   // Update URL when filters change
   const updateURL = (center: string | null, type: string | null) => {
@@ -61,12 +85,6 @@ function HomeContent() {
     updateURL(selectedCenterType, type);
   };
 
-  const filteredDemos = demos.demos.filter((demo) => {
-    const matchesCenterType = !selectedCenterType || demo.centerType === selectedCenterType;
-    const matchesAppointmentType = !selectedAppointmentType || demo.appointmentType === selectedAppointmentType;
-    return matchesCenterType && matchesAppointmentType;
-  });
-
   return (
     <AudioContext.Provider value={{ currentlyPlaying, setCurrentlyPlaying }}>
       <main className="min-h-screen bg-gray-100">
@@ -100,7 +118,7 @@ function HomeContent() {
 
           {/* Demo Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredDemos.map((demo) => (
+            {shuffledFilteredDemos.map((demo) => (
               <DemoCard
                 key={demo.id}
                 id={demo.id.toString()}
