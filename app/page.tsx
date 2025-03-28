@@ -70,20 +70,22 @@ function HomeContent() {
   return (
     <AudioContext.Provider value={{ currentlyPlaying, setCurrentlyPlaying }}>
       <main className="min-h-screen bg-gray-100">
-        {/* Banner Section */}
-        <div className="w-full relative h-[120px] mb-8">
-          <Image
-            src="/banner.webp"
-            alt="Vooca Banner"
-            fill
-            className="object-contain"
-            priority
-          />
+        {/* Banner Section - Updated with white rounded container */}
+        <div className="w-full flex justify-center px-4 py-8">
+          <div className="bg-white rounded-3xl shadow-lg p-8 w-full max-w-2xl relative h-[120px]">
+            <Image
+              src="/banner.webp"
+              alt="Vooca Banner"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
         </div>
 
         {/* Content Section */}
         <div className="max-w-7xl mx-auto px-4 pb-16">
-          <h1 className="text-4xl font-bold text-center mb-12 text-[#171717]">
+          <h1 className="text-4xl font-bold text-center mb-12 text-[#171717] drop-shadow-sm">
             Nos agents spécialisés pour tous vos cas d&apos;usage médicaux
           </h1>
           
