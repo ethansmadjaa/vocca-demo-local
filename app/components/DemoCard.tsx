@@ -195,12 +195,12 @@ export default function DemoCard({ id, title, description, image, audioFile, cen
           <p className="text-gray-600 leading-relaxed text-lg tracking-wide line-clamp-4">{description}</p>
         </div>
 
-        {/* Tags Section */}
-        <div className="flex flex-wrap gap-2 mt-auto">
-          <span className="px-4 py-1.5 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+        {/* Tags Section - Improved overflow handling */}
+        <div className="flex flex-wrap items-start gap-2 mt-auto w-full">
+          <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium truncate min-w-0 max-w-full">
             {centerType}
           </span>
-          <span className="px-4 py-1.5 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+          <span className="inline-block px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium truncate min-w-0 max-w-full">
             {appointmentType}
           </span>
         </div>
