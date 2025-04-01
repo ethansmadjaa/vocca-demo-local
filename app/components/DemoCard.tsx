@@ -18,14 +18,18 @@ interface DemoCardProps {
 
 export default function DemoCard({ id, title, description, image, audioFile, centerType, appointmentType }: DemoCardProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
   const { currentlyPlaying, setCurrentlyPlaying } = useContext(AudioContext);
+  const [isResetting, setIsResetting] = useState(false);
   
   useEffect(() => {
     // Handle audio end event
     const handleAudioEnd = () => {
       setIsPlaying(false);
       setCurrentlyPlaying(null);
+      setProgress(0);
       console.log("Audio playback ended");
     };
 
@@ -38,6 +42,18 @@ export default function DemoCard({ id, title, description, image, audioFile, cen
       setIsPlaying(false);
       setCurrentlyPlaying(null);
     };
+    
+    const handleTimeUpdate = () => {
+      if (audioRef.current) {
+        setProgress(audioRef.current.currentTime);
+      }
+    };
+    
+    const handleLoadedMetadata = () => {
+      if (audioRef.current) {
+        setDuration(audioRef.current.duration);
+      }
+    };
 
     // Capture the current ref value to use in cleanup
     const audioElement = audioRef.current;
@@ -46,6 +62,8 @@ export default function DemoCard({ id, title, description, image, audioFile, cen
       audioElement.addEventListener('ended', handleAudioEnd);
       audioElement.addEventListener('play', handlePlay);
       audioElement.addEventListener('error', handleError);
+      audioElement.addEventListener('timeupdate', handleTimeUpdate);
+      audioElement.addEventListener('loadedmetadata', handleLoadedMetadata);
       
       // Ensure audio has proper volume and is not muted
       audioElement.volume = 1.0;
@@ -58,6 +76,8 @@ export default function DemoCard({ id, title, description, image, audioFile, cen
         audioElement.removeEventListener('ended', handleAudioEnd);
         audioElement.removeEventListener('play', handlePlay);
         audioElement.removeEventListener('error', handleError);
+        audioElement.removeEventListener('timeupdate', handleTimeUpdate);
+        audioElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
       }
     };
   }, [setCurrentlyPlaying]);
@@ -92,14 +112,28 @@ export default function DemoCard({ id, title, description, image, audioFile, cen
   };
 
   const resetAudio = () => {
-    // Only allow reset if this audio is actually playing
-    if (audioRef.current && isPlaying) {
+    if (audioRef.current) {
+      setIsResetting(true);
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       setIsPlaying(false);
       setCurrentlyPlaying(null);
+      
+      // Add a delay before actually resetting the progress for smooth transition
+      setTimeout(() => {
+        setProgress(0);
+        setIsResetting(false);
+      }, 300);
     }
   };
+  
+  // Calculate the progress percentage for the progress indicator
+  const progressPercentage = duration > 0 ? (progress / duration) * 100 : 0;
+  
+  // Calculate the circle parameters for the progress indicator
+  const circleRadius = 29; // Adjusted radius
+  const circleCircumference = 2 * Math.PI * circleRadius;
+  const strokeDashoffset = circleCircumference * (1 - progressPercentage / 100);
 
   return (
     <div className="bg-white rounded-3xl shadow-xl overflow-hidden w-full h-[600px] hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 flex flex-col">
@@ -154,12 +188,12 @@ export default function DemoCard({ id, title, description, image, audioFile, cen
         <div className="absolute bottom-4 right-4 flex gap-3 z-10">
           <button
             onClick={resetAudio}
-            className={`w-14 h-14 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-500 flex-shrink-0 border border-white/30 ${
-              isPlaying 
+            className={`w-16 h-16 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-500 flex-shrink-0 border border-white/30 ${
+              progress > 0 
                 ? 'bg-white/20 hover:bg-white/30 hover:scale-110' 
                 : 'bg-white/10 cursor-not-allowed opacity-50'
             }`}
-            disabled={!isPlaying}
+            disabled={progress === 0}
             aria-label="Reset audio"
           >
             <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -168,19 +202,50 @@ export default function DemoCard({ id, title, description, image, audioFile, cen
           </button>
           <button
             onClick={togglePlay}
-            className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/30 flex items-center justify-center transition-all duration-500 hover:scale-110 flex-shrink-0 border border-white/30"
+            className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/30 flex items-center justify-center transition-all duration-500 hover:scale-110 flex-shrink-0 border border-white/30 relative"
             aria-label={isPlaying ? "Pause" : "Play"}
           >
-            {isPlaying ? (
-              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            ) : (
-              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            )}
+            {/* Progress Circle Indicator - Only visible when playing */}
+            <svg className="absolute inset-0 -rotate-90" viewBox="0 0 64 64">
+              {isPlaying && (
+                <circle
+                  cx="32"
+                  cy="32"
+                  r={circleRadius}
+                  fill="none"
+                  stroke="rgba(59, 130, 246, 0.2)"
+                  strokeWidth="3"
+                  className="opacity-80"
+                />
+              )}
+              {(progress > 0 || isResetting) && (
+                <circle
+                  cx="32"
+                  cy="32"
+                  r={circleRadius}
+                  fill="none"
+                  stroke="#2563eb"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                  strokeDasharray={circleCircumference}
+                  strokeDashoffset={strokeDashoffset}
+                  className="transition-all duration-300 ease-linear"
+                  style={{ filter: "drop-shadow(0 0 3px #3b82f6)" }}
+                />
+              )}
+            </svg>
+            <div className="z-10 absolute inset-0 flex items-center justify-center">
+              {isPlaying ? (
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              ) : (
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              )}
+            </div>
           </button>
         </div>
       </div>
