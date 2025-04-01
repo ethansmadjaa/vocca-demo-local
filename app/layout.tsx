@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Demo Vocca",
-  description: "Demo showcase for Vocca sound products",
+  title: "Vocca démos",
+  description: "Démonstration des cas d'usage Vocca",
   icons: {
     icon: "/favicon.webp",
     apple: "/favicon.webp",
