@@ -53,11 +53,12 @@ export default function FilterSection({
               <button
                 key={type.id}
                 onClick={() => handleCenterTypeClick(type.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  selectedCenterType === type.id
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out
+                  ${selectedCenterType === type.id
+                    ? 'bg-blue-500 text-white shadow-md transform scale-105 hover:bg-blue-600'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105'
+                  }
+                `}
               >
                 {type.label}
               </button>
@@ -73,11 +74,12 @@ export default function FilterSection({
               <button
                 key={type.id}
                 onClick={() => handleAppointmentTypeClick(type.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  selectedAppointmentType === type.id
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out
+                  ${selectedAppointmentType === type.id
+                    ? 'bg-blue-500 text-white shadow-md transform scale-105 hover:bg-blue-600'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105'
+                  }
+                `}
               >
                 {type.label}
               </button>

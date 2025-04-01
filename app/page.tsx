@@ -36,6 +36,9 @@ function HomeContent() {
   // Initialize with unshuffled filtered demos and add isShuffled state
   const [shuffledFilteredDemos, setShuffledFilteredDemos] = useState(demos.demos);
   const [isShuffled, setIsShuffled] = useState(false);
+  
+  // Add state to track filter changes for animation
+  const [isFiltering, setIsFiltering] = useState(false);
 
   // Initial shuffle effect that runs only on the client
   useEffect(() => {
@@ -50,14 +53,30 @@ function HomeContent() {
 
   // Filter and shuffle demos when filters change
   useEffect(() => {
-    const filtered = demos.demos.filter((demo) => {
-      const matchesCenterType = !selectedCenterType || demo.centerType === selectedCenterType;
-      const matchesAppointmentType = !selectedAppointmentType || demo.appointmentType === selectedAppointmentType;
-      return matchesCenterType && matchesAppointmentType;
-    });
+    // Skip the initial render
+    if (!isShuffled) return;
     
-    setShuffledFilteredDemos(shuffleArray(filtered));
-  }, [selectedCenterType, selectedAppointmentType]);
+    // Set filtering state to true to trigger animation
+    setIsFiltering(true);
+    
+    // Add a small delay to allow the exit animation to complete
+    const filterTimeout = setTimeout(() => {
+      const filtered = demos.demos.filter((demo) => {
+        const matchesCenterType = !selectedCenterType || demo.centerType === selectedCenterType;
+        const matchesAppointmentType = !selectedAppointmentType || demo.appointmentType === selectedAppointmentType;
+        return matchesCenterType && matchesAppointmentType;
+      });
+      
+      setShuffledFilteredDemos(shuffleArray(filtered));
+      
+      // Reset filtering state after a short delay to trigger the enter animation
+      setTimeout(() => {
+        setIsFiltering(false);
+      }, 100);
+    }, 300);
+    
+    return () => clearTimeout(filterTimeout);
+  }, [selectedCenterType, selectedAppointmentType, isShuffled]);
 
   // Update URL when filters change
   const updateURL = (center: string | null, type: string | null) => {
@@ -128,9 +147,13 @@ function HomeContent() {
             onAppointmentTypeChange={handleAppointmentTypeChange}
           />
 
-          {/* Demo Cards Grid with Loading State */}
+          {/* Demo Cards Grid with Loading State and Filter Animation */}
           {isShuffled ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 opacity-100 transition-opacity duration-300">
+            <div 
+              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 
+                transition-all duration-500 ease-in-out
+                ${isFiltering ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'}`}
+            >
               {shuffledFilteredDemos.map((demo) => (
                 <DemoCard
                   key={demo.id}
