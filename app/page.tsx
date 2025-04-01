@@ -33,8 +33,20 @@ function HomeContent() {
     searchParams.get('type')
   );
   
-  // State for shuffled demos
+  // Initialize with unshuffled filtered demos and add isShuffled state
   const [shuffledFilteredDemos, setShuffledFilteredDemos] = useState(demos.demos);
+  const [isShuffled, setIsShuffled] = useState(false);
+
+  // Initial shuffle effect that runs only on the client
+  useEffect(() => {
+    const initialFiltered = demos.demos.filter((demo) => {
+      const matchesCenterType = !selectedCenterType || demo.centerType === selectedCenterType;
+      const matchesAppointmentType = !selectedAppointmentType || demo.appointmentType === selectedAppointmentType;
+      return matchesCenterType && matchesAppointmentType;
+    });
+    setShuffledFilteredDemos(shuffleArray(initialFiltered));
+    setIsShuffled(true);
+  }, []); // Empty dependency array means this runs once after initial mount
 
   // Filter and shuffle demos when filters change
   useEffect(() => {
@@ -116,21 +128,27 @@ function HomeContent() {
             onAppointmentTypeChange={handleAppointmentTypeChange}
           />
 
-          {/* Demo Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {shuffledFilteredDemos.map((demo) => (
-              <DemoCard
-                key={demo.id}
-                id={demo.id.toString()}
-                title={demo.title}
-                description={demo.description}
-                image={demo.image}
-                audioFile={demo.audioFile}
-                centerType={demo.centerType}
-                appointmentType={demo.appointmentType}
-              />
-            ))}
-          </div>
+          {/* Demo Cards Grid with Loading State */}
+          {isShuffled ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 opacity-100 transition-opacity duration-300">
+              {shuffledFilteredDemos.map((demo) => (
+                <DemoCard
+                  key={demo.id}
+                  id={demo.id.toString()}
+                  title={demo.title}
+                  description={demo.description}
+                  image={demo.image}
+                  audioFile={demo.audioFile}
+                  centerType={demo.centerType}
+                  appointmentType={demo.appointmentType}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="min-h-[400px] flex items-center justify-center">
+              <div className="animate-pulse text-gray-600">Chargement des cas d&apos;usage...</div>
+            </div>
+          )}
         </div>
       </main>
     </AudioContext.Provider>
