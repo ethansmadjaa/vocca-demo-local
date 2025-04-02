@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useContext } from 'react';
 import Image from 'next/image';
 import AudioContext from '../contexts/AudioContext';
+import { useLanguage } from '../contexts/LanguageContext';
 // Suppression de l'import qui ne fonctionne pas
 // import ReactAudioSpectrum from 'react-audio-spectrum';
 
@@ -14,15 +15,17 @@ interface DemoCardProps {
   audioFile: string;
   centerType: string;
   appointmentType: string;
+  language: string;
 }
 
-export default function DemoCard({ id, title, description, image, audioFile, centerType, appointmentType }: DemoCardProps) {
+export default function DemoCard({ id, title, description, image, audioFile, centerType, appointmentType, language }: DemoCardProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
   const { currentlyPlaying, setCurrentlyPlaying } = useContext(AudioContext);
   const [isResetting, setIsResetting] = useState(false);
+  const { t } = useLanguage();
   
   useEffect(() => {
     // Handle audio end event
@@ -131,7 +134,7 @@ export default function DemoCard({ id, title, description, image, audioFile, cen
   const progressPercentage = duration > 0 ? (progress / duration) * 100 : 0;
   
   // Calculate the circle parameters for the progress indicator
-  const circleRadius = 29; // Adjusted radius
+  const circleRadius = 29;
   const circleCircumference = 2 * Math.PI * circleRadius;
   const strokeDashoffset = circleCircumference * (1 - progressPercentage / 100);
 
@@ -154,7 +157,7 @@ export default function DemoCard({ id, title, description, image, audioFile, cen
         {isPlaying && (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center">
             <div className="bg-black/60 backdrop-blur-md p-4 rounded-xl flex flex-col items-center">
-              <div className="text-white text-base font-medium mb-3">Lecture en cours</div>
+              <div className="text-white text-base font-medium mb-3">{t('playing')}</div>
               
               {/* CSS Waveform Animation */}
               <div className="flex items-center justify-center h-16 space-x-1">
@@ -267,6 +270,9 @@ export default function DemoCard({ id, title, description, image, audioFile, cen
           </span>
           <span className="inline-block px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium truncate min-w-0 max-w-full">
             {appointmentType}
+          </span>
+          <span className="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium truncate min-w-0 max-w-full">
+            {language === 'fr' ? 'Français' : 'English'}
           </span>
         </div>
       </div>

@@ -7,7 +7,8 @@
       "image": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&auto=format&fit=crop&q=60",
       "audioFile": "https://storage.vapi.ai/23fa39fb-63d8-4129-a844-cfde12ba4aab-1743072066591-857c4e45-64f0-4d5a-8f71-457495886d79-mono.mp3",
       "centerType": "dentaire",
-      "appointmentType": "prise-de-rendez-vous"
+      "appointmentType": "prise-de-rendez-vous",
+      "language": "fr"
     },
     {
       "id": 2,
@@ -16,7 +17,8 @@
       "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop&q=60",
       "audioFile": "https://storage.vapi.ai/82764306-ecb8-4a1a-b5af-af143db9b75d-1743078280514-0b6bf9cc-b4eb-4b9f-98f3-c9395ba90fc1-mono.mp3",
       "centerType": "dentaire",
-      "appointmentType": "appel-post-operatoire"
+      "appointmentType": "appel-post-operatoire",
+      "language": "fr"
     },
     {
       "id": 3,
@@ -25,7 +27,8 @@
       "image": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&auto=format&fit=crop&q=60",
       "audioFile": "https://storage.vapi.ai/07db0be3-fd5b-49b0-bc64-97d07d69f40d-1743079111804-76c7a06f-7796-49fd-8a68-2d00b7299217-mono.mp3",
       "centerType": "dentaire",
-      "appointmentType": "modification"
+      "appointmentType": "modification",
+      "language": "fr"
     },
     {
       "id": 4,
@@ -34,7 +37,9 @@
       "image": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=800&auto=format&fit=crop&q=60",
       "audioFile": "https://storage.vapi.ai/79b63b9b-da03-44ac-8b56-025241d68089-1743079913212-5b5a9e58-75a4-460e-8db4-72066522c45d-mono.mp3",
       "centerType": "dentaire",
-      "appointmentType": "demande-informations"
+      "appointmentType": "demande-informations",
+      "language": "fr"
+      
     },
     {
       "id": 5,
@@ -43,7 +48,8 @@
       "image": "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&auto=format&fit=crop&q=60",
       "audioFile": "https://storage.vapi.ai/abf4fee9-0b93-4c9e-8321-074179da7364-1743080460790-c05f5d4a-f69d-4d50-b984-1756880008da-mono.mp3",
       "centerType": "dentaire",
-      "appointmentType": "retard"
+      "appointmentType": "retard",
+      "language": "fr"
     },
     {
       "id": 6,
@@ -52,7 +58,8 @@
       "image": "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&auto=format&fit=crop&q=60",
       "audioFile": "https://storage.vapi.ai/73cd65b0-1879-4a45-9b34-2ba5cb7689a1-1743086889142-183594b0-fb1a-4510-9ba0-1f828286bbf5-mono.mp3",
       "centerType": "urologie",
-      "appointmentType": "annulation"
+      "appointmentType": "annulation",
+      "language": "fr"
     },
     {
       "id": 7,
@@ -61,7 +68,8 @@
       "image": "https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=800&auto=format&fit=crop&q=60",
       "audioFile": "https://storage.vapi.ai/15fe2891-f946-47e5-b47c-ec8809e375ad-1743086604863-8c3e7266-9a6d-410b-ab2f-03fd928969f6-mono.mp3",
       "centerType": "urologie",
-      "appointmentType": "prise-de-rendez-vous"
+      "appointmentType": "prise-de-rendez-vous",
+      "language": "fr"
     },
     {
       "id": 8,
@@ -70,7 +78,8 @@
       "image": "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?w=800&auto=format&fit=crop&q=60",
       "audioFile": "https://storage.vapi.ai/0b73d2fb-ae8c-4a95-a1fc-9005cb2bbb3c-1743087544033-05c4a27d-d718-4b05-8031-3e8d4442821d-mono.mp3",
       "centerType": "radiologie",
-      "appointmentType": "modification"
+      "appointmentType": "modification",
+      "language": "fr"
     },
     {
       "id": 9,
@@ -79,7 +88,8 @@
       "image": "/national-cancer-institute-e6XXhDKo1nk-unsplash.jpg",
       "audioFile": "https://storage.vapi.ai/9832090a-4e1a-422e-8ed5-b66399547e06-1743086311198-849f5d3b-c05d-4372-b0ec-c97d308e7b6f-mono.mp3",
       "centerType": "radiologie",
-      "appointmentType": "demande-resultats"
+      "appointmentType": "demande-resultats",
+      "language": "fr"
     },
     {
       "id": 10,
@@ -88,7 +98,8 @@
       "image": "/cdc-NMZdj2Zu36M-unsplash.jpg",
       "audioFile": "https://storage.vapi.ai/f5a0c6a9-735d-4c3c-bfd9-29fd5e0633d5-1743087880031-55dc66b8-c68a-4391-94d4-b67e3b110f82-mono.mp3",
       "centerType": "radiologie",
-      "appointmentType": "prise-de-rendez-vous"
+      "appointmentType": "prise-de-rendez-vous",
+      "language": "fr"
     },
     {
       "id": 11,
@@ -97,7 +108,8 @@
       "image": "/elen-sher-nbU4xF3YUbw-unsplash.jpg",
       "audioFile": "https://storage.vapi.ai/482958b8-e644-4d08-8e42-643aaedc86fb-1743085508212-4319dda7-8384-4ef0-824b-cffef607d205-mono.mp3",
       "centerType": "radiologie",
-      "appointmentType": "prise-de-rendez-vous"
+      "appointmentType": "prise-de-rendez-vous",
+      "language": "fr"
     },
     {
       "id": 12,
@@ -106,7 +118,8 @@
       "image": "/charanjeet-dhiman-mHusyBu4bxM-unsplash.jpg",
       "audioFile": "https://storage.vapi.ai/6865a1ad-80fc-4120-a712-187c8e6a9cf3-1743085169360-8d8039f6-7ead-4262-b184-b530ce739350-mono.mp3",
       "centerType": "radiologie",
-      "appointmentType": "confirmation"
+      "appointmentType": "confirmation",
+      "language": "fr"
     }
   ],
   "filters": {

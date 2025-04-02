@@ -7,6 +7,8 @@ import FilterSection from './components/FilterSection';
 import demos from './data/demos.json';
 import Image from 'next/image';
 import AudioContext from './contexts/AudioContext';
+import LanguageSwitcher from './components/LanguageSwitcher';
+import { useLanguage } from './contexts/LanguageContext';
 
 // Shuffle function using Fisher-Yates algorithm
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -21,6 +23,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { language, t } = useLanguage();
   
   // Audio context state
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
@@ -45,11 +48,12 @@ function HomeContent() {
     const initialFiltered = demos.demos.filter((demo) => {
       const matchesCenterType = !selectedCenterType || demo.centerType === selectedCenterType;
       const matchesAppointmentType = !selectedAppointmentType || demo.appointmentType === selectedAppointmentType;
-      return matchesCenterType && matchesAppointmentType;
+      const matchesLanguage = demo.language === language || !demo.language; // Show demos with missing language field too
+      return matchesCenterType && matchesAppointmentType && matchesLanguage;
     });
     setShuffledFilteredDemos(shuffleArray(initialFiltered));
     setIsShuffled(true);
-  }, []); // Empty dependency array means this runs once after initial mount
+  }, [language, selectedCenterType, selectedAppointmentType]);
 
   // Filter and shuffle demos when filters change
   useEffect(() => {
@@ -64,7 +68,8 @@ function HomeContent() {
       const filtered = demos.demos.filter((demo) => {
         const matchesCenterType = !selectedCenterType || demo.centerType === selectedCenterType;
         const matchesAppointmentType = !selectedAppointmentType || demo.appointmentType === selectedAppointmentType;
-        return matchesCenterType && matchesAppointmentType;
+        const matchesLanguage = demo.language === language || !demo.language; // Show demos with missing language field too
+        return matchesCenterType && matchesAppointmentType && matchesLanguage;
       });
       
       setShuffledFilteredDemos(shuffleArray(filtered));
@@ -76,7 +81,7 @@ function HomeContent() {
     }, 300);
     
     return () => clearTimeout(filterTimeout);
-  }, [selectedCenterType, selectedAppointmentType, isShuffled]);
+  }, [selectedCenterType, selectedAppointmentType, isShuffled, language]); // Added language dependency
 
   // Update URL when filters change
   const updateURL = (center: string | null, type: string | null) => {
@@ -119,23 +124,28 @@ function HomeContent() {
   return (
     <AudioContext.Provider value={{ currentlyPlaying, setCurrentlyPlaying }}>
       <main className="min-h-screen bg-gray-100">
-        {/* Banner Section - Updated with white rounded container */}
+        {/* Banner Section with Language Switcher */}
         <div className="w-full flex justify-center px-4 py-8">
-          <div className="bg-white rounded-3xl shadow-lg p-8 w-full max-w-2xl relative h-[120px]">
-            <Image
-              src="/banner.webp"
-              alt="Vooca Banner"
-              fill
-              className="object-contain"
-              priority
-            />
+          <div className="bg-white rounded-3xl shadow-lg p-8 w-full max-w-2xl relative h-[120px] flex justify-between items-center">
+            <div className="relative w-full h-full">
+              <Image
+                src="/banner.webp"
+                alt="Vooca Banner"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+            <div className="absolute right-8">
+              <LanguageSwitcher />
+            </div>
           </div>
         </div>
 
         {/* Content Section */}
         <div className="max-w-7xl mx-auto px-4 pb-16">
           <h1 className="text-4xl font-bold text-center mb-12 text-[#171717] drop-shadow-sm">
-            Nos agents spécialisés pour tous vos cas d&apos;usage médicaux
+            {t('title.main')}
           </h1>
           
           {/* Filters */}
@@ -164,12 +174,13 @@ function HomeContent() {
                   audioFile={demo.audioFile}
                   centerType={demo.centerType}
                   appointmentType={demo.appointmentType}
+                  language={demo.language || 'fr'} // Default to French if not specified
                 />
               ))}
             </div>
           ) : (
             <div className="min-h-[400px] flex items-center justify-center">
-              <div className="animate-pulse text-gray-600">Chargement des cas d&apos;usage...</div>
+              <div className="animate-pulse text-gray-600">{t('loading')}</div>
             </div>
           )}
         </div>
@@ -179,8 +190,9 @@ function HomeContent() {
 }
 
 export default function Home() {
+  const { t } = useLanguage();
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Chargement...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">{t('loading.simple')}</div>}>
       <HomeContent />
     </Suspense>
   );

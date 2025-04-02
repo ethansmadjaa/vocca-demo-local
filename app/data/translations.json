@@ -1,0 +1,80 @@
+{
+  "general": {
+    "title.main": {
+      "fr": "Nos agents spécialisés pour tous vos cas d'usage médicaux",
+      "en": "Our specialized agents for all your medical use cases"
+    },
+    "filters.title": {
+      "fr": "Filtres",
+      "en": "Filters"
+    },
+    "filters.centerType": {
+      "fr": "Type de Centre",
+      "en": "Center Type"
+    },
+    "filters.appointmentType": {
+      "fr": "Type de Rendez-vous",
+      "en": "Appointment Type"
+    },
+    "loading": {
+      "fr": "Chargement des cas d'usage...",
+      "en": "Loading use cases..."
+    },
+    "loading.simple": {
+      "fr": "Chargement...",
+      "en": "Loading..."
+    },
+    "playing": {
+      "fr": "Lecture en cours",
+      "en": "Now playing"
+    }
+  },
+  "centerTypes": {
+    "dentaire": {
+      "fr": "Centre Dentaire",
+      "en": "Dental Center"
+    },
+    "radiologie": {
+      "fr": "Centre de Radiologie",
+      "en": "Radiology Center"
+    },
+    "urologie": {
+      "fr": "Urologie",
+      "en": "Urology"
+    }
+  },
+  "appointmentTypes": {
+    "prise-de-rendez-vous": {
+      "fr": "Prise de rendez-vous",
+      "en": "Appointment Booking"
+    },
+    "modification": {
+      "fr": "Modification",
+      "en": "Modification"
+    },
+    "annulation": {
+      "fr": "Annulation",
+      "en": "Cancellation"
+    },
+    "appel-post-operatoire": {
+      "fr": "Appel post-opératoire",
+      "en": "Post-operative Call"
+    },
+    "demande-resultats": {
+      "fr": "Demande de résultats",
+      "en": "Results Request"
+    },
+    "demande-informations": {
+      "fr": "Demande d'informations",
+      "en": "Information Request"
+    },
+    "retard": {
+      "fr": "Retard",
+      "en": "Delay"
+    },
+    "confirmation": {
+      "fr": "Confirmation",
+      "en": "Confirmation"
+    }
+  }
+} 
