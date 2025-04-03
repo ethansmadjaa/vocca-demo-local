@@ -20,6 +20,16 @@
         "en": "Appointment Type"
       }
     },
+    "notFound": {
+      "message": {
+        "fr": "Désolé, la page que vous recherchez n'existe pas.",
+        "en": "Sorry, the page you're looking for doesn't exist."
+      },
+      "backHome": {
+        "fr": "Retour à l'accueil",
+        "en": "Back to Home"
+      }
+    },
     "loading": {
       "fr": "Chargement des cas d'usage...",
       "en": "Loading use cases..."
