@@ -85,22 +85,24 @@ function HomeContent() {
 
   // Update URL when filters change
   const updateURL = (center: string | null, type: string | null) => {
-    // Start with a clean URL if no filters are selected
-    if (!center && !type) {
-      router.push('/', { scroll: false });
-      return;
-    }
+    const params = new URLSearchParams(searchParams.toString());
     
-    // Create a new URLSearchParams object
-    const params = new URLSearchParams();
-    
-    // Only add params that have values
+    // Update filter parameters
     if (center) {
       params.set('center', center);
+    } else {
+      params.delete('center');
     }
     
     if (type) {
       params.set('type', type);
+    } else {
+      params.delete('type');
+    }
+    
+    // Preserve language parameter
+    if (language) {
+      params.set('lang', language);
     }
     
     // Create the URL string with query parameters if they exist
@@ -145,7 +147,7 @@ function HomeContent() {
         {/* Content Section */}
         <div className="max-w-7xl mx-auto px-4 pb-16">
           <h1 className="text-4xl font-bold text-center mb-12 text-[#171717] drop-shadow-sm">
-            {t('title.main')}
+            {t('general.title.main')}
           </h1>
           
           {/* Filters */}

@@ -1,20 +1,24 @@
 {
   "general": {
-    "title.main": {
-      "fr": "Nos agents spécialisés pour tous vos cas d'usage médicaux",
-      "en": "Our specialized agents for all your medical use cases"
+    "title": {
+      "main": {
+        "fr": "Nos agents spécialisés pour tous vos cas d'usage médicaux",
+        "en": "Our specialized agents for all your medical use cases"
+      }
     },
-    "filters.title": {
-      "fr": "Filtres",
-      "en": "Filters"
-    },
-    "filters.centerType": {
-      "fr": "Type de Centre",
-      "en": "Center Type"
-    },
-    "filters.appointmentType": {
-      "fr": "Type de Rendez-vous",
-      "en": "Appointment Type"
+    "filters": {
+      "title": {
+        "fr": "Filtres",
+        "en": "Filters"
+      },
+      "centerType": {
+        "fr": "Type de Centre",
+        "en": "Center Type"
+      },
+      "appointmentType": {
+        "fr": "Type de Rendez-vous",
+        "en": "Appointment Type"
+      }
     },
     "loading": {
       "fr": "Chargement des cas d'usage...",

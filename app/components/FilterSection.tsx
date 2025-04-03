@@ -45,13 +45,13 @@ export default function FilterSection({
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-gray-800">{t('filters.title')}</h2>
+        <h2 className="text-xl font-bold text-gray-800">{t('general.filters.title')}</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Centre Type Filter */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-3">{t('filters.centerType')}</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-3">{t('general.filters.centerType')}</h3>
           <div className="flex flex-wrap gap-2">
             {filters.centerTypes.map((type) => (
               <button
@@ -72,7 +72,7 @@ export default function FilterSection({
 
         {/* Appointment Type Filter */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-3">{t('filters.appointmentType')}</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-3">{t('general.filters.appointmentType')}</h3>
           <div className="flex flex-wrap gap-2">
             {filters.appointmentTypes.map((type) => (
               <button
