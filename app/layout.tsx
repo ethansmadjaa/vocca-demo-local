@@ -14,19 +14,33 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vocca démos",
-  description: "Démonstration des cas d'usage Vocca",
+  title: {
+    template: '%s | Vocca',
+    default: 'Vocca démos',
+  },
+  description: "Démonstration des cas d'usage Vocca - Agents conversationnels spécialisés pour le secteur médical",
   icons: {
     icon: "/favicon.webp",
     apple: "/favicon.webp",
+  },
+  openGraph: {
+    title: 'Vocca démos',
+    description: "Démonstration des cas d'usage Vocca - Agents conversationnels spécialisés pour le secteur médical",
+    locale: 'fr_FR',
+  },
+  alternates: {
+    languages: {
+      'fr': '?lang=fr',
+      'en': '?lang=en',
+    },
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="fr">
       <body
