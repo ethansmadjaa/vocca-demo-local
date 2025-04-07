@@ -3,14 +3,16 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   // Get the pathname
-  const pathname = request.nextUrl.pathname;
+  // const pathname = request.nextUrl.pathname;
 
   // Get the language from the URL
-  const lang = request.nextUrl.searchParams.get('lang') || 'fr';
+  // const lang = request.nextUrl.searchParams.get('lang') || 'fr';
 
   // Create a response
   const response = NextResponse.next();
 
+  // Temporarily commented out header logic for debugging
+  /*
   // Set language-specific metadata
   if (lang === 'en') {
     response.headers.set(
@@ -26,11 +28,12 @@ export function middleware(request: NextRequest) {
       'x-metadata',
       JSON.stringify({
         title: 'Vocca démos',
-        description: 'Démonstration des cas d\'usage Vocca - Agents conversationnels spécialisés pour le secteur médical',
+        description: "Démonstration des cas d'usage Vocca - Agents conversationnels spécialisés pour le secteur médical",
         locale: 'fr_FR',
       })
     );
   }
+  */
 
   return response;
 }
