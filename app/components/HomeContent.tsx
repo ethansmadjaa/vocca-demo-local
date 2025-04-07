@@ -128,8 +128,8 @@ export default function HomeContent() {
       <main className="min-h-screen bg-gray-100">
         {/* Banner Section with Language Switcher */}
         <div className="w-full flex justify-center px-4 py-8">
-          <div className="bg-white rounded-3xl shadow-lg p-8 w-full max-w-2xl relative h-[120px] flex flex-col md:flex-row justify-between items-center">
-            <div className="relative w-full h-full mb-4 md:mb-0">
+          <div className="bg-white rounded-3xl shadow-lg p-4 md:p-8 w-full max-w-2xl relative h-[100px] md:h-[120px] flex flex-row justify-between items-center">
+            <div className="relative h-full flex-shrink-0 mr-4" style={{ width: '150px' }}>
               <Image
                 src="/banner.webp"
                 alt="Vooca Banner"
@@ -138,7 +138,7 @@ export default function HomeContent() {
                 priority
               />
             </div>
-            <div className="md:absolute md:right-8 md:top-1/2 md:transform md:-translate-y-1/2">
+            <div className="">
               <LanguageSwitcher />
             </div>
           </div>
