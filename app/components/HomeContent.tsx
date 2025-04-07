@@ -126,7 +126,45 @@ export default function HomeContent() {
   return (
     <AudioContext.Provider value={{ currentlyPlaying, setCurrentlyPlaying }}>
       <main className="min-h-screen bg-gray-100">
-        {/* Banner Section with Language Switcher */}
+        {/* New Header Section */}
+        <header className="bg-white shadow-sm sticky top-0 z-10">
+          <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              {/* Logo */}
+              <div className="flex-shrink-0 flex items-center">
+                <a href="https://www.vocca.ai" target="_blank" rel="noopener noreferrer" aria-label="Vocca AI Home">
+                  {/* Using existing banner image, constrained */}
+                  <Image
+                    src="/banner.webp" 
+                    alt="Vocca AI Logo"
+                    width={100} // Adjust width as needed
+                    height={40} // Adjust height as needed
+                    className="object-contain" 
+                    priority
+                  />
+                </a>
+              </div>
+              
+              {/* Hamburger Menu Icon (Placeholder) */}
+              <div className="flex items-center">
+                <button className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 md:hidden"> {/* Hidden on medium screens and up for now */}
+                  <span className="sr-only">Open main menu</span>
+                  {/* Simple SVG for hamburger icon */}
+                  <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+                  </svg>
+                </button>
+                {/* Placeholder for Desktop Navigation / Language Switcher */}
+                 <div className="hidden md:block">
+                   {/* <LanguageSwitcher />  Could be placed here for desktop */}
+                 </div>
+              </div>
+            </div>
+          </nav>
+        </header>
+
+        {/* Original Banner Section Removed */}
+        {/* 
         <div className="w-full flex justify-center px-4 py-8">
           <div className="bg-white rounded-3xl shadow-lg p-4 md:p-8 w-full max-w-2xl relative h-[100px] md:h-[120px] flex flex-row justify-between items-center">
             <div className="relative h-full flex-shrink-0 mr-4" style={{ width: '150px' }}>
@@ -143,9 +181,10 @@ export default function HomeContent() {
             </div>
           </div>
         </div>
+        */}
 
         {/* Content Section */}
-        <div className="max-w-7xl mx-auto px-4 pb-16">
+        <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8"> {/* Added top padding */}
           <h1 className="text-4xl font-bold text-center mb-12 text-[#171717] drop-shadow-sm">
             {t('general.title.main')}
           </h1>
