@@ -2,28 +2,16 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 import HomeContent from './components/HomeContent';
 
-// Define more specific types for the searchParams and params
-type SearchParamsType = {
-  lang?: string;
-  center?: string;
-  type?: string;
-  [key: string]: string | undefined;
-};
-
-type ParamsType = {
-  [key: string]: string;
-};
-
-// Update the Props type to match Next.js 15+ requirements with more specific types
+// Define the Props type for Next.js 15.2.4
 type Props = {
-  searchParams: Promise<SearchParamsType>;
-  params: Promise<ParamsType>;
+  params: Promise<{ [key: string]: string | string[] }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   // Since searchParams is now a Promise, we need to await it
-  const resolvedParams = await searchParams;
-  const lang = resolvedParams.lang || 'fr';
+  const resolvedSearchParams = await searchParams;
+  const lang = resolvedSearchParams.lang as string || 'fr';
   
   const metadata: Metadata = {
     title: lang === 'en' ? 'Vocca demos' : 'Vocca démos',
@@ -42,7 +30,6 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   return metadata;
 }
 
-// Remove the unused searchParams parameter
 export default function Home() {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">
