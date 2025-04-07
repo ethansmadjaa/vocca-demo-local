@@ -17,7 +17,8 @@ export function middleware(request: NextRequest) {
   if (lang === 'en') {
     response.headers.set(
       'x-metadata',
-      JSON.stringify({ lang: lang }) // Simplify object
+      JSON.stringify({ title: 'Vocca demos' }) // Test only title
+      // JSON.stringify({ lang: lang }) // Simplify object
       /* JSON.stringify({
         title: 'Vocca demos',
         description: 'Demonstration of Vocca use cases - Specialized conversational agents for the medical sector',
@@ -27,7 +28,8 @@ export function middleware(request: NextRequest) {
   } else {
     response.headers.set(
       'x-metadata',
-      JSON.stringify({ lang: lang }) // Simplify object
+      JSON.stringify({ title: 'Vocca démos' }) // Test only title (with accent)
+      // JSON.stringify({ lang: lang }) // Simplify object
       /* JSON.stringify({
         title: 'Vocca démos',
         description: "Démonstration des cas d'usage Vocca - Agents conversationnels spécialisés pour le secteur médical", // Use standard apostrophe
