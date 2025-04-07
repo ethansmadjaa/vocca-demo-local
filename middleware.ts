@@ -11,29 +11,23 @@ export function middleware(request: NextRequest) {
   // Create a response
   const response = NextResponse.next();
 
-  // Temporarily commented out header logic for debugging
-  /*
+  // Temporarily commented out header logic for debugging - NOW RE-ENABLING WITH SIMPLE VALUES
+  // /*
   // Set language-specific metadata
   if (lang === 'en') {
     response.headers.set(
       'x-metadata',
-      JSON.stringify({
-        title: 'Vocca demos',
-        description: 'Demonstration of Vocca use cases - Specialized conversational agents for the medical sector',
-        locale: 'en_US',
-      })
+      // JSON.stringify({...})
+      'test-en' // Simple value for testing
     );
   } else {
     response.headers.set(
       'x-metadata',
-      JSON.stringify({
-        title: 'Vocca démos',
-        description: "Démonstration des cas d'usage Vocca - Agents conversationnels spécialisés pour le secteur médical",
-        locale: 'fr_FR',
-      })
+      // JSON.stringify({...})
+      'test-fr' // Simple value for testing
     );
   }
-  */
+  // */
 
   return response;
 }
