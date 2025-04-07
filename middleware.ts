@@ -17,14 +17,22 @@ export function middleware(request: NextRequest) {
   if (lang === 'en') {
     response.headers.set(
       'x-metadata',
-      // JSON.stringify({...})
-      'test-en' // Simple value for testing
+      JSON.stringify({
+        title: 'Vocca demos',
+        description: 'Demonstration of Vocca use cases - Specialized conversational agents for the medical sector',
+        locale: 'en_US',
+      })
+      // 'test-en' // Simple value for testing
     );
   } else {
     response.headers.set(
       'x-metadata',
-      // JSON.stringify({...})
-      'test-fr' // Simple value for testing
+      JSON.stringify({
+        title: 'Vocca démos',
+        description: "Démonstration des cas d'usage Vocca - Agents conversationnels spécialisés pour le secteur médical", // Use standard apostrophe
+        locale: 'fr_FR',
+      })
+      // 'test-fr' // Simple value for testing
     );
   }
   // */
