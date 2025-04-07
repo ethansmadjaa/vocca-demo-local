@@ -3,10 +3,10 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   // Get the pathname
-  // const pathname = request.nextUrl.pathname;
+  const pathname = request.nextUrl.pathname;
 
   // Get the language from the URL
-  // const lang = request.nextUrl.searchParams.get('lang') || 'fr';
+  const lang = request.nextUrl.searchParams.get('lang') || 'fr';
 
   // Create a response
   const response = NextResponse.next();
