@@ -25,6 +25,9 @@ export default function HomeContent() {
   const searchParams = useSearchParams();
   const { language, t } = useLanguage();
   
+  // Add mobile menu state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   // Audio context state
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
   
@@ -126,38 +129,81 @@ export default function HomeContent() {
   return (
     <AudioContext.Provider value={{ currentlyPlaying, setCurrentlyPlaying }}>
       <main className="min-h-screen bg-gray-100">
-        {/* New Header Section */}
-        <header className="bg-white shadow-sm sticky top-0 z-10">
+        {/* Header Section */}
+        <header className="bg-white shadow-sm sticky top-0 z-20">
           <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               {/* Logo */}
               <div className="flex-shrink-0 flex items-center">
                 <a href="https://www.vocca.ai" target="_blank" rel="noopener noreferrer" aria-label="Vocca AI Home">
-                  {/* Using existing banner image, constrained */}
                   <Image
                     src="/banner.webp" 
                     alt="Vocca AI Logo"
-                    width={100} // Adjust width as needed
-                    height={40} // Adjust height as needed
+                    width={100}
+                    height={40}
                     className="object-contain" 
                     priority
                   />
                 </a>
               </div>
               
-              {/* Hamburger Menu Icon (Placeholder) */}
-              <div className="flex items-center">
-                <button className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 md:hidden"> {/* Hidden on medium screens and up for now */}
-                  <span className="sr-only">Open main menu</span>
-                  {/* Simple SVG for hamburger icon */}
-                  <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+              {/* Right side navigation */}
+              <div className="flex items-center space-x-4">
+                {/* Language Switcher - visible on all screens */}
+                <LanguageSwitcher />
+                
+                {/* Hamburger Menu Button - visible on all screens */}
+                <button 
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                  aria-expanded={isMobileMenuOpen}
+                >
+                  <span className="sr-only">Toggle menu</span>
+                  <svg 
+                    className="h-6 w-6" 
+                    stroke="currentColor" 
+                    fill="none" 
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    {isMobileMenuOpen ? (
+                      // X icon when menu is open
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    ) : (
+                      // Hamburger icon when menu is closed
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    )}
                   </svg>
                 </button>
-                {/* Placeholder for Desktop Navigation / Language Switcher */}
-                 <div className="hidden md:block">
-                   {/* <LanguageSwitcher />  Could be placed here for desktop */}
-                 </div>
+              </div>
+            </div>
+
+            {/* Mobile menu panel */}
+            <div 
+              className={`${
+                isMobileMenuOpen ? 'block' : 'hidden'
+              } border-t border-gray-200 py-2`}
+            >
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                {/* Add any additional mobile menu items here */}
+                <a
+                  href="https://www.vocca.ai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                >
+                  Visit Vocca.ai
+                </a>
               </div>
             </div>
           </nav>
