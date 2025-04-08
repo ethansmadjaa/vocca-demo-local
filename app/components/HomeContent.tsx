@@ -257,6 +257,7 @@ export default function HomeContent() {
                   id={demo.id.toString()}
                   title={demo.title}
                   description={demo.description}
+                  big_description={demo.big_description}
                   image={demo.image}
                   audioFile={demo.audioFile}
                   centerType={demo.centerType}

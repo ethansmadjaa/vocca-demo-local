@@ -6,6 +6,16 @@
         "en": "Our specialized agents for all your medical use cases"
       }
     },
+    "button": {
+      "seeMore": {
+        "fr": "Voir plus",
+        "en": "See More"
+      }, 
+      "tryItOut": {
+        "fr": "Essayer",
+        "en": "Try It Out"
+      }
+    },
     "filters": {
       "title": {
         "fr": "Filtres",
